@@ -1,0 +1,139 @@
+.help-page {
+  padding-bottom: 48px;
+}
+
+.help-hero {
+  text-align: center;
+  padding: 64px 0;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  margin-bottom: 48px;
+}
+
+.hero-icon {
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.help-hero h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.help-hero p {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.help-content {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.faq-section h3, .support-options h3 {
+  font-size: 20px;
+  margin-bottom: 24px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.faq-item.open {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.faq-question svg {
+  color: var(--text-tertiary);
+  transition: transform var(--transition-fast);
+}
+
+.faq-item.open .faq-question svg {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0 24px 24px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.support-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.support-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 40px 32px;
+  text-align: center;
+  transition: all var(--transition);
+}
+
+.support-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.support-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.support-card h4 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.support-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.support-card .btn-outline {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .support-cards {
+    grid-template-columns: 1fr;
+  }
+}

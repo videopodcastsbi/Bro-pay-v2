@@ -1,0 +1,52 @@
+.not-found-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.not-found-content {
+  text-align: center;
+  padding: 48px;
+}
+
+.glitch {
+  font-size: 120px;
+  font-weight: 800;
+  color: var(--text-primary);
+  position: relative;
+  letter-spacing: -4px;
+  margin-bottom: 24px;
+  text-shadow: 2px 2px 0 var(--accent), -2px -2px 0 var(--danger);
+  animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+  0%, 100% { text-shadow: 2px 2px 0 var(--accent), -2px -2px 0 var(--danger); }
+  20% { text-shadow: -2px 2px 0 var(--accent), 2px -2px 0 var(--danger); }
+  40% { text-shadow: 2px -2px 0 var(--accent), -2px 2px 0 var(--danger); }
+  60% { text-shadow: -2px -2px 0 var(--accent), 2px 2px 0 var(--danger); }
+  80% { text-shadow: 2px 2px 0 var(--accent), -2px -2px 0 var(--danger); }
+}
+
+.not-found-content h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.not-found-content p {
+  color: var(--text-secondary);
+  margin-bottom: 48px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.action-buttons .btn-outline,
+.action-buttons .btn-primary {
+  padding: 16px 32px;
+}

@@ -1,0 +1,125 @@
+.split-page { animation: fadeIn 0.3s ease-out; }
+
+.split-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.split-stats .stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.split-stats .stat-icon { color: var(--primary); }
+.split-stats .stat-icon.settled { color: var(--success); }
+
+.bills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bill-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.bill-card:hover { box-shadow: var(--shadow-md); }
+
+.bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  cursor: pointer;
+}
+
+.bill-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bill-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.bill-status-dot.pending { background: var(--warning); }
+.bill-status-dot.settled { background: var(--success); }
+
+.bill-info h3 { font-size: 16px; margin-bottom: 2px; }
+.bill-date { font-size: 13px; color: var(--text-muted); }
+
+.bill-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-muted);
+}
+
+.bill-amount { text-align: right; }
+.bill-amount .amount { display: block; font-size: 18px; font-weight: 700; color: var(--text-main); }
+.bill-amount .count { font-size: 12px; color: var(--text-muted); }
+
+.bill-details {
+  padding: 0 24px 24px;
+  border-top: 1px solid var(--border-color);
+}
+
+.participants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.participant-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.participant-name { flex: 1; font-size: 14px; font-weight: 500; }
+.participant-amount { font-size: 14px; font-weight: 600; color: var(--text-main); }
+
+.badge {
+  padding: 4px 10px;
+  border-radius: var(--border-radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.paid { background: var(--success-light); color: var(--success); }
+.badge.unpaid { background: var(--warning-light); color: var(--warning); }
+
+.btn-sm { padding: 8px 16px; font-size: 13px; margin-top: 8px; }
+
+@media (max-width: 768px) {
+  .split-stats { grid-template-columns: 1fr; }
+}

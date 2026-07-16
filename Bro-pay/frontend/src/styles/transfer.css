@@ -1,0 +1,248 @@
+.transfer-page {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.transfer-container {
+  margin-top: 32px;
+}
+
+.transfer-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48px;
+  padding: 0 32px;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-tertiary);
+  transition: all var(--transition);
+}
+
+.progress-step.active {
+  color: var(--accent);
+}
+
+.progress-step.active .step-circle {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--bg-secondary);
+  transition: all var(--transition);
+}
+
+.progress-step span {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.progress-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  margin: 0 16px;
+  margin-bottom: 24px;
+}
+
+.transfer-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.transfer-form h3, .transfer-review h3, .transfer-result h3 {
+  font-size: 24px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 24px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  transition: all var(--transition-fast);
+  background: var(--bg-primary);
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.amount-input-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--bg-primary);
+  transition: all var(--transition-fast);
+}
+
+.amount-input-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.currency-symbol {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  margin-right: 16px;
+}
+
+.amount-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.amount-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.btn-group .btn-primary {
+  flex: 1;
+  justify-content: center;
+  padding: 16px;
+}
+
+.btn-group .btn-secondary {
+  flex: 1;
+  justify-content: center;
+  padding: 16px;
+}
+
+.review-details {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.review-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.review-row:first-child {
+  padding-top: 0;
+}
+
+.review-row span {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.review-row strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.review-row.total {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+  border-bottom: none;
+}
+
+.review-row.total strong {
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.transfer-result {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.result-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+}
+
+.result-icon.success {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.result-icon.failed {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+.transfer-result p {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.transfer-result .btn-primary {
+  display: inline-flex;
+  width: auto;
+  padding: 16px 48px;
+}
