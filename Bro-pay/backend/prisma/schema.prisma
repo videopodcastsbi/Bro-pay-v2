@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wallet    Wallet?
+  
+  // Relations for transactions where user is sender or receiver
+  sentTransactions     Transaction[] @relation("SenderTransactions")
+  receivedTransactions Transaction[] @relation("ReceiverTransactions")
+}
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  balance   Float    @default(0.0)
+  currency  String   @default("USD")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  amount      Float
+  type        String   // "DEPOSIT", "WITHDRAWAL", "TRANSFER"
+  status      String   @default("COMPLETED") // "PENDING", "COMPLETED", "FAILED"
+  description String?
+  createdAt   DateTime @default(now())
+
+  // For P2P transfers
+  senderId    String?
+  sender      User?    @relation("SenderTransactions", fields: [senderId], references: [id])
+  
+  receiverId  String?
+  receiver    User?    @relation("ReceiverTransactions", fields: [receiverId], references: [id])
+}
