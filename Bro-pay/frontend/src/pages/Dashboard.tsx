@@ -10,7 +10,7 @@ import { api } from '../services/api';
 import '../styles/dashboard.css';
 
 interface Transaction {
-  id: number;
+  id: string;
   name: string;
   type: string;
   amount: number;
@@ -45,7 +45,8 @@ const Dashboard: React.FC = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const data = await api.dashboard.get();
+      const res = await api.dashboard.get();
+      const data = res.data;
       setBalance(data.balance);
       setIncome(data.income);
       setExpense(data.expense);

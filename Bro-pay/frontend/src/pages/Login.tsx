@@ -25,8 +25,8 @@ const Login: React.FC = () => {
       });
       const data = await response.json();
       if (response.ok && data.success) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
+        localStorage.setItem('token', data.data.accessToken);
         navigate('/dashboard');
       } else {
         setError(data.message || 'Login failed');

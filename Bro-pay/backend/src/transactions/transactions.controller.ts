@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -7,12 +7,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class TransactionsController {
   constructor(private transactionsService: TransactionsService) {}
 
-  @Post('send')
-  sendMoney(@Request() req: any, @Body() body: { email: string; amount: number; description?: string }) {
-    return this.transactionsService.sendMoney(req.user.userId, body.email, body.amount, body.description);
-  }
-
-  @Get('history')
+  @Get()
   getHistory(@Request() req: any) {
     return this.transactionsService.getHistory(req.user.userId);
   }

@@ -1,78 +1,72 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { WalletsService } from '../wallets/wallets.service';
-import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class TransactionsService {
-  constructor(
-    private prisma: PrismaService,
-    private walletsService: WalletsService,
-    private usersService: UsersService,
-  ) {}
+  private readonly logger = new Logger(TransactionsService.name);
 
-  async sendMoney(senderId: string, receiverEmail: string, amount: number, description?: string) {
-    if (amount <= 0) {
-      throw new BadRequestException('Amount must be greater than zero');
-    }
-
-    const receiver = await this.usersService.findOneByEmail(receiverEmail);
-    if (!receiver) {
-      throw new BadRequestException('Receiver not found');
-    }
-
-    if (senderId === receiver.id) {
-      throw new BadRequestException('Cannot send money to yourself');
-    }
-
-    const senderWallet = await this.walletsService.getBalance(senderId);
-    if (senderWallet.balance < amount) {
-      throw new BadRequestException('Insufficient balance');
-    }
-
-    // Execute transfer in a transaction
-    return this.prisma.$transaction(async (prisma) => {
-      // Deduct from sender
-      await prisma.wallet.update({
-        where: { userId: senderId },
-        data: { balance: { decrement: amount } },
-      });
-
-      // Add to receiver
-      await prisma.wallet.update({
-        where: { userId: receiver.id },
-        data: { balance: { increment: amount } },
-      });
-
-      // Create transaction record
-      const transaction = await prisma.transaction.create({
-        data: {
-          amount,
-          type: 'TRANSFER',
-          status: 'COMPLETED',
-          description: description || 'P2P Transfer',
-          senderId,
-          receiverId: receiver.id,
-        },
-      });
-
-      return transaction;
-    });
-  }
+  constructor(private prisma: PrismaService) {}
 
   async getHistory(userId: string) {
-    return this.prisma.transaction.findMany({
+    const transactions = await this.prisma.transaction.findMany({
       where: {
-        OR: [
-          { senderId: userId },
-          { receiverId: userId },
-        ],
+        OR: [{ senderId: userId }, { receiverId: userId }],
       },
       orderBy: { createdAt: 'desc' },
       include: {
-        sender: { select: { name: true, email: true } },
-        receiver: { select: { name: true, email: true } },
+        sender: { select: { id: true, name: true, username: true, email: true } },
+        receiver: { select: { id: true, name: true, username: true, email: true } },
       },
     });
+
+    let totalIncome = 0;
+    let totalExpense = 0;
+
+    const formatted = transactions.map((tx) => {
+      let isIncome = false;
+
+      if (tx.type === 'TOP_UP' && tx.receiverId === userId) {
+        isIncome = true;
+      } else if (tx.type === 'TRANSFER_RECEIVED' && tx.receiverId === userId) {
+        isIncome = true;
+      } else if (tx.type === 'TRANSFER_SENT' && tx.senderId === userId) {
+        isIncome = false;
+      } else if (tx.type === 'WITHDRAW' && tx.senderId === userId) {
+        isIncome = false;
+      }
+
+      const amount = Number(tx.amount);
+
+      if (isIncome) {
+        totalIncome += amount;
+      } else {
+        totalExpense += amount;
+      }
+
+      return {
+        id: tx.id,
+        type: tx.type,
+        status: tx.status,
+        amount,
+        description: tx.description,
+        reference: tx.reference,
+        isIncome,
+        sender: tx.sender,
+        receiver: tx.receiver,
+        createdAt: tx.createdAt,
+      };
+    });
+
+    return {
+      success: true,
+      message: 'Transaction history retrieved',
+      data: {
+        summary: {
+          totalIncome,
+          totalExpense,
+        },
+        transactions: formatted,
+      },
+    };
   }
 }

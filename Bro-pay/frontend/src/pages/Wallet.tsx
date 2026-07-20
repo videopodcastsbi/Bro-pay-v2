@@ -25,8 +25,8 @@ const Wallet: React.FC = () => {
   useEffect(() => {
     const fetchBalance = async () => {
       try {
-        const data = await api.dashboard.get();
-        setWallets(prev => prev.map((w, i) => i === 0 ? { ...w, balance: data.balance } : w));
+        const res = await api.wallets.balance();
+        setWallets(prev => prev.map((w, i) => i === 0 ? { ...w, balance: res.data.balance, currency: res.data.currency } : w));
       } catch (_err) {
         console.error('Failed to fetch wallet data');
       } finally {

@@ -6,6 +6,7 @@ import '../styles/auth.css';
 const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -46,7 +47,7 @@ const Register: React.FC = () => {
       const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, username, password }),
       });
       const data = await response.json();
       if (response.ok && data.success) {
@@ -130,6 +131,14 @@ const Register: React.FC = () => {
               <div className="input-icon-wrapper">
                 <Mail size={18} className="icon" />
                 <input type="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="input-field" required />
+              </div>
+            </div>
+
+            <div className="input-group">
+              <label>Username</label>
+              <div className="input-icon-wrapper">
+                <User size={18} className="icon" />
+                <input type="text" placeholder="Choose a username" value={username} onChange={(e) => setUsername(e.target.value)} className="input-field" required minLength={3} maxLength={30} pattern="[a-zA-Z0-9_]+" />
               </div>
             </div>
 

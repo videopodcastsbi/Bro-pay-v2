@@ -11,8 +11,8 @@ import { JwtStrategy } from './jwt.strategy';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: 'super-secret-bro-pay-key',
-      signOptions: { expiresIn: '60m' },
+      secret: process.env.JWT_SECRET ?? 'bro-pay-fallback-secret',
+      signOptions: { expiresIn: (process.env.JWT_EXPIRES_IN ?? '7d') as any },
     }),
   ],
   providers: [AuthService, JwtStrategy],

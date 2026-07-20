@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -10,19 +9,67 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { email } });
   }
 
+  async findOneByUsername(username: string) {
+    return this.prisma.user.findUnique({ where: { username } });
+  }
+
   async findOneById(id: string) {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  async create(data: Prisma.UserCreateInput) {
-    // When creating a user, also create an empty wallet for them
+  async findOneByEmailOrUsername(identifier: string) {
+    const lower = identifier.toLowerCase();
+    return this.prisma.user.findFirst({
+      where: {
+        OR: [{ email: lower }, { username: identifier }],
+      },
+    });
+  }
+
+  async getProfile(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        username: true,
+        createdAt: true,
+        updatedAt: true,
+        wallet: {
+          select: {
+            balance: true,
+            currency: true,
+          },
+        },
+      },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
+  async getWallet(userId: string) {
+    return this.prisma.wallet.findUnique({ where: { userId } });
+  }
+
+  async create(data: {
+    name: string;
+    email: string;
+    username: string;
+    password: string;
+  }) {
     return this.prisma.user.create({
       data: {
-        ...data,
+        name: data.name,
+        email: data.email,
+        username: data.username,
+        password: data.password,
         wallet: {
           create: {
-            balance: 0.0,
-            currency: 'USD',
+            balance: 0,
+            currency: 'IDR',
           },
         },
       },

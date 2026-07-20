@@ -6,7 +6,7 @@ import EmptyState from '../components/ui/EmptyState';
 import '../styles/transactions.css';
 
 interface Transaction {
-  id: number;
+  id: string;
   name: string;
   type: string;
   amount: number;
@@ -31,8 +31,15 @@ const Transactions: React.FC = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const data = await api.dashboard.get();
-        setAllTransactions(data.transactions);
+        const res = await api.transactions.list();
+        const mapped = res.data.transactions.map(tx => ({
+          id: tx.id,
+          name: tx.description,
+          type: tx.isIncome ? 'income' : 'expense',
+          amount: tx.amount,
+          date: new Date(tx.createdAt).toLocaleDateString(),
+        }));
+        setAllTransactions(mapped);
       } catch (_err) {
         console.error('Failed to fetch transactions');
       } finally {

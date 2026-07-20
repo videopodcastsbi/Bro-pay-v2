@@ -32,10 +32,10 @@ const Transfer: React.FC = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await api.transactions.create({
-        name: recipient,
-        type: 'expense',
-        amount: parseFloat(amount)
+      await api.wallets.transfer({
+        receiver: recipient,
+        amount: parseFloat(amount),
+        description: note || undefined,
       });
       setStep('success');
     } catch (_err) {
