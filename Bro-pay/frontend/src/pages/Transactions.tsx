@@ -11,6 +11,7 @@ interface Transaction {
   type: string;
   amount: number;
   date: string;
+  createdAt: string;
 }
 
 const Transactions: React.FC = () => {
@@ -38,6 +39,7 @@ const Transactions: React.FC = () => {
           type: tx.isIncome ? 'income' : 'expense',
           amount: tx.amount,
           date: new Date(tx.createdAt).toLocaleDateString(),
+          createdAt: tx.createdAt,
         }));
         setAllTransactions(mapped);
       } catch (_err) {
@@ -66,8 +68,8 @@ const Transactions: React.FC = () => {
 
     // Sort
     result.sort((a, b) => {
-      if (sortBy === 'date-desc') return b.id - a.id;
-      if (sortBy === 'date-asc') return a.id - b.id;
+      if (sortBy === 'date-desc') return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      if (sortBy === 'date-asc') return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       if (sortBy === 'amount-desc') return b.amount - a.amount;
       if (sortBy === 'amount-asc') return a.amount - b.amount;
       return 0;

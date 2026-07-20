@@ -5,7 +5,7 @@ import { api } from '../services/api';
 import '../styles/transaction-detail.css';
 
 interface Transaction {
-  id: number;
+  id: string;
   name: string;
   type: string;
   amount: number;
@@ -23,7 +23,7 @@ const TransactionDetail: React.FC = () => {
     const fetchTransaction = async () => {
       try {
         const data = await api.dashboard.get();
-        const tx = data.transactions.find((t: Transaction) => t.id === parseInt(id || ''));
+        const tx = data.data.transactions.find((t: Transaction) => t.id === id);
         if (tx) {
           setTransaction({ ...tx, status: 'completed' });
         }
@@ -82,7 +82,7 @@ const TransactionDetail: React.FC = () => {
         <div className="detail-info-grid">
           <div className="info-item">
             <span className="label">Transaction ID</span>
-            <span className="value">#TX{transaction.id.toString().padStart(8, '0')}</span>
+            <span className="value">#TX{transaction.id.slice(0, 8).toUpperCase()}</span>
           </div>
           <div className="info-item">
             <span className="label">Date</span>
