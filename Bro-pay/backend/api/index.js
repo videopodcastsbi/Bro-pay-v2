@@ -1,15 +1,18 @@
 const { NestFactory } = require('@nestjs/core');
 const { ExpressAdapter } = require('@nestjs/platform-express');
 const { ValidationPipe } = require('@nestjs/common');
+const express = require('express');
 
-let cachedApp;
+let cachedHandler;
 
 module.exports = async (req, res) => {
-  if (!cachedApp) {
-    const express = require('express');
+  if (!cachedHandler) {
     const { AppModule } = require('../dist/app.module');
 
-    const app = await NestFactory.create(AppModule, new ExpressAdapter(express()));
+    const server = express();
+    const adapter = new ExpressAdapter(server);
+
+    const app = await NestFactory.create(AppModule, adapter);
 
     app.enableCors({
       origin: '*',
@@ -29,8 +32,9 @@ module.exports = async (req, res) => {
     );
 
     await app.init();
-    cachedApp = app.getHttpAdapter().getInstance();
+
+    cachedHandler = server;
   }
 
-  cachedApp(req, res);
+  cachedHandler(req, res);
 };
