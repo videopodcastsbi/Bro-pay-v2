@@ -2,12 +2,6 @@
   "version": 2,
   "buildCommand": "npm run build",
   "installCommand": "npm install --include=dev",
-  "functions": {
-    "api/index.js": {
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  },
   "outputFileTracingIncludes": {
     "api/index.js": [
       "dist/**",
