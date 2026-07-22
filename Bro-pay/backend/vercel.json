@@ -2,13 +2,6 @@
   "version": 2,
   "buildCommand": "npm run build",
   "installCommand": "npm install --include=dev",
-  "outputFileTracingIncludes": {
-    "api/index.js": [
-      "dist/**",
-      "node_modules/.prisma/**",
-      "node_modules/@prisma/client/**"
-    ]
-  },
   "rewrites": [
     {
       "source": "/(.*)",
